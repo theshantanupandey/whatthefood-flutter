@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wtfeua/src/features/address/presentation/address.dart';
 import 'package:wtfeua/src/features/ai_diet/presentation/diet_plan.dart';
+import 'package:wtfeua/src/features/auth/presentation/otp.dart';
 import 'package:wtfeua/src/features/auth/presentation/sign_out.dart';
 import 'package:wtfeua/src/features/cart/presentation/foodcart.dart';
 import 'package:wtfeua/src/features/health/presentation/health_report.dart';
@@ -29,4 +30,5 @@ Map<String, Widget Function(BuildContext)> routeList = <String, WidgetBuilder>{
   '/breakfast': (context) => BreakfastScreen(),
   '/cart': (context) => FoodCart(),
   '/home': (context) => HomePage(),
+  '/otpScreen': (context) => OtpScreen(),
 };
