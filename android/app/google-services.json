@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "129535961363",
+    "project_id": "whatthefood-app-1bdfe",
+    "storage_bucket": "whatthefood-app-1bdfe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129535961363:android:4e5df377855ca28c8652e6",
+        "android_client_info": {
+          "package_name": "com.example.wtfeua"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQcc5b-bpy-3PaEH89JTbfpQTXow9XWts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

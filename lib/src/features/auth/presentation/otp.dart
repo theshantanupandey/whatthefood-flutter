@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key});
+  final String phoneNo;
+  const OtpScreen({super.key, required this.phoneNo});
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -12,6 +14,42 @@ class _OtpScreenState extends State<OtpScreen> {
   final List<FocusNode> focusNodes = List.generate(6, (index) => FocusNode());
   final List<TextEditingController> otpControllers =
       List.generate(6, (index) => TextEditingController());
+  String? verificationId;
+  TextEditingController phoneController = TextEditingController();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    verificationId = ModalRoute.of(context)?.settings.arguments as String?;
+  }
+
+  Future<void> verifyOtp() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final String otp =
+        otpControllers.map((controller) => controller.text).join();
+
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId!,
+        smsCode: otp,
+      );
+
+      await auth.signInWithCredential(credential);
+      Navigator.pushReplacementNamed(context, '/home');
+    } catch (e) {
+      print("OTP verification failed: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('OTP verification failed. Please try again.')),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    phoneController.text = widget.phoneNo;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,10 +129,12 @@ class _OtpScreenState extends State<OtpScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         child: TextField(
+                          controller: phoneController,
                           decoration: InputDecoration(
-                            hintText: 'Enter Mobile Number',
+                            hintText: 'Phone Number',
                             border: InputBorder.none,
                           ),
+                          readOnly: true,
                         ),
                       ),
                       SizedBox(height: 20),
@@ -151,7 +191,9 @@ class _OtpScreenState extends State<OtpScreen> {
                             'Sign-In',
                             style: TextStyle(color: Colors.white),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            verifyOtp();
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.orange,
                             padding: EdgeInsets.symmetric(vertical: 15),

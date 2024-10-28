@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wtfeua/src/features/auth/function/auth_function.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -8,6 +10,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final TextEditingController _phoneController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +88,7 @@ class _SignInState extends State<SignIn> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: TextField(
+                              controller: _phoneController,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: 'Enter Mobile Number',
@@ -101,7 +105,22 @@ class _SignInState extends State<SignIn> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, '/otpScreen');
+                                final phoneNumber =
+                                    _phoneController.text.trim();
+                                if (phoneNumber.isNotEmpty) {
+                                  signInWithOtp('+91' + phoneNumber, context);
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/otpScreen',
+                                    arguments: phoneNumber,
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            'Please enter a valid phone number.')),
+                                  );
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.orange,
@@ -148,7 +167,17 @@ class _SignInState extends State<SignIn> {
                                   ),
                                 ],
                               ),
-                              onPressed: () {},
+                              onPressed: () async {
+                                User? user = await signInWithGoogle();
+                                if (user != null) {
+                                  Navigator.pushReplacementNamed(
+                                      context, '/home');
+                                  print(
+                                      'Sign-In successful! Welcome, ${user.displayName}');
+                                } else {
+                                  print('Sign-In failed.');
+                                }
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
                                 padding: EdgeInsets.symmetric(vertical: 15),

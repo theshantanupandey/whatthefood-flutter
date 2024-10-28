@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget profileMenuButton(
-    BuildContext context, IconData icon, String label, String page) {
+Widget profileMenuButton(BuildContext context, IconData icon, String label,
+    String page, VoidCallback? onTap) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
       backgroundColor: Colors.orange[50],
@@ -10,6 +10,7 @@ Widget profileMenuButton(
       padding: EdgeInsets.symmetric(vertical: 16),
     ),
     onPressed: () {
+      onTap!();
       Navigator.pushNamed(context, page);
     },
     child: Column(

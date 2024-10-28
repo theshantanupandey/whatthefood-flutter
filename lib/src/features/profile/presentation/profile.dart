@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wtfeua/src/features/auth/function/auth_function.dart';
 import 'package:wtfeua/src/features/profile/widgets/profile_menu_button.dart';
 
 class userProfile extends StatelessWidget {
@@ -165,14 +166,50 @@ class userProfile extends StatelessWidget {
         mainAxisSpacing: 16,
         crossAxisSpacing: 16,
         children: [
-          profileMenuButton(context, Icons.list_alt, 'Orders', '/orders'),
-          profileMenuButton(context, Icons.help_outline, 'Help', '/help'),
           profileMenuButton(
-              context, Icons.location_on_outlined, 'Address', '/address'),
-          profileMenuButton(context, Icons.credit_card, 'Payment', '/payment'),
-          profileMenuButton(context, Icons.description_outlined,
-              'Health Report', '/healthReport'),
-          profileMenuButton(context, Icons.logout, 'Log Out', '/signOut'),
+            context,
+            Icons.list_alt,
+            'Orders',
+            '/orders',
+            () {},
+          ),
+          profileMenuButton(
+            context,
+            Icons.help_outline,
+            'Help',
+            '/help',
+            () {},
+          ),
+          profileMenuButton(
+            context,
+            Icons.location_on_outlined,
+            'Address',
+            '/address',
+            () {},
+          ),
+          profileMenuButton(
+            context,
+            Icons.credit_card,
+            'Payment',
+            '/payment',
+            () {},
+          ),
+          profileMenuButton(
+            context,
+            Icons.description_outlined,
+            'Health Report',
+            '/healthReport',
+            () {},
+          ),
+          profileMenuButton(
+            context,
+            Icons.logout,
+            'Log Out',
+            '/signIn',
+            () async {
+              await signOut(context);
+            },
+          ),
         ],
       ),
     );
